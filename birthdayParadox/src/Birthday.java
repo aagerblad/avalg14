@@ -7,10 +7,12 @@ import java.util.Random;
 public class Birthday {
 
     public static void main(String[] args) {
-        int N = 10000;
+//        int N = 10000;
+        int N = 1000;
 //        double c = 1.72;
 //        double d = 0.1;
-        double c = 1.17;
+        double c = 1.8;
+        double a = 0.66;
         double d = 0.1;
 //        double target = 0.77;
         double target = 0.50;
@@ -18,7 +20,7 @@ public class Birthday {
         int numOfExperiments = 100000;
 
 
-        Bday2(N, c, d, target, delta, numOfExperiments);
+        Bday2(N, c, a, d, target, delta, numOfExperiments);
     }
 
     private static void Bday(int n, double c, double d, double target, double delta, int numOfExperiments) {
@@ -66,20 +68,20 @@ public class Birthday {
         System.out.println("C= " + c);
     }
 
-    private static void Bday2(int n, double c, double d, double target, double delta, int numOfExperiments) {
+    private static void Bday2(int n, double c, double a,  double d, double target, double delta, int numOfExperiments) {
         double averageNumberOfHits = 0;
         Random random = new Random();
         while (true) {
-            System.out.println("C: " + c + " Avg: " + averageNumberOfHits);
-            averageNumberOfHits = foo(n, c, numOfExperiments, averageNumberOfHits, random);
+            System.out.println("C: " + c + "A: " + a + " Avg: " + averageNumberOfHits);
+            averageNumberOfHits = foo(n, c, a, numOfExperiments, averageNumberOfHits, random);
 
             averageNumberOfHits /= numOfExperiments;
 
             if (averageNumberOfHits < target - delta) {
-                c += d;
+                a += d;
                 d /= 2;
             } else if (averageNumberOfHits > target + delta) {
-                c -= d;
+                a -= d;
                 d /= 2;
             } else {
                 break;
@@ -87,12 +89,14 @@ public class Birthday {
 
         }
 
-        System.out.println("Average number of hits: " + averageNumberOfHits);
+        System.out.println("\nAverage number of hits: " + averageNumberOfHits);
         System.out.println("C= " + c);
+        System.out.println("A= " + a);
     }
 
-    private static double foo(int n, double c, int numOfExperiments, double averageNumberOfHits, Random random) {
-        int T = (int) (c*Math.sqrt((double) n));
+    private static double foo(int n, double c, double a, int numOfExperiments, double averageNumberOfHits, Random random) {
+//        int T = (int) (c*Math.sqrt((double) n));
+        int T = (int) (c*Math.pow(n,a));
 
         for (int i = 0; i < numOfExperiments; i++) {
             HashSet<Integer> set1 = new HashSet<Integer>();
